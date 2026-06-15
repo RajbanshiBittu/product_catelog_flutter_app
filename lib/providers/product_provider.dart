@@ -22,10 +22,16 @@ class ProductProvider extends ChangeNotifier {
 
   String _searchQuery = '';
   String _selectedCategory = 'All';
+  double _minPrice = 0;
+  double _maxPrice = 1000;
 
   // Getters
 
   List<Product> get products => _filteredProducts;
+
+  double get minPrice => _minPrice;
+
+  double get maxPrice => _maxPrice;
 
   List<String> get categories => _categories;
 
@@ -149,6 +155,17 @@ class ProductProvider extends ChangeNotifier {
   }
 
   // ==========================
+  // PRICE RANGE FILTER
+  // ==========================
+
+  /// Filter products by price range (inclusive)
+  void filterByPriceRange(double min, double max) {
+    _minPrice = min;
+    _maxPrice = max;
+    _applyFilters();
+  }
+
+  // ==========================
   // APPLY FILTERS
   // ==========================
 
@@ -161,7 +178,11 @@ class ProductProvider extends ChangeNotifier {
           _selectedCategory == 'All' ||
           product.category == _selectedCategory;
 
-      return matchesSearch && matchesCategory;
+      // Price range check (inclusive)
+      final matchesPrice = product.price >= _minPrice && 
+                          product.price <= _maxPrice;
+
+      return matchesSearch && matchesCategory && matchesPrice;
     }).toList();
 
     notifyListeners();

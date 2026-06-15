@@ -43,3 +43,10 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+
+# Documentation files
+ACTION_PLAN.md
+ARCHITECTURE_GUIDE.md
+AUDIT_REPORT.md
+IMPLEMENTATION_FIXES.md
